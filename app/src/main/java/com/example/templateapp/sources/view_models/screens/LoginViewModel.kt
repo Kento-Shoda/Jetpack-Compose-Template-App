@@ -1,25 +1,30 @@
 package com.example.templateapp.sources.view_models.screens
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.example.templateapp.sources.utilities.RouteManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 abstract class ILoginViewModel : ViewModel()
 {
-	protected var _textUserId: MutableStateFlow<String> = MutableStateFlow<String>("")
-	var textUserId: StateFlow<String> = _textUserId.asStateFlow()
+	protected val _textUserId: MutableStateFlow<String> = MutableStateFlow<String>("")
+	val textUserId: StateFlow<String> = _textUserId.asStateFlow()
 
-	protected var _textPassword: MutableStateFlow<String> = MutableStateFlow<String>("")
-	var textPassword: StateFlow<String> = _textPassword.asStateFlow()
+	protected val _textPassword: MutableStateFlow<String> = MutableStateFlow<String>("")
+	val textPassword: StateFlow<String> = _textPassword.asStateFlow()
+
+	protected var _isAuthenticating: MutableStateFlow<Boolean> = MutableStateFlow(false)
+	val isAuthenticating: StateFlow<Boolean> = _isAuthenticating.asStateFlow()
 
 	abstract fun onUserIdChange(changedUserId: String)
 	abstract fun onPasswordChange(changedPassword: String)
@@ -83,17 +88,25 @@ class LoginViewModel @AssistedInject constructor(
 
 	override fun onLoginClick()
 	{
-		viewModelScope.launch {
-			Thread.sleep(3000)
-			println(_textUserId.value)
-			println(_textPassword.value)
+		if(_isAuthenticating.value){
+			return
 		}
-		toHomeScreen()
+
+		GlobalScope.launch {
+			withContext(Dispatchers.Default) {
+				_isAuthenticating.value = true
+				Thread.sleep(3000)
+				_isAuthenticating.value = false
+			}
+			withContext(Dispatchers.Main) {
+				toHomeScreen()
+			}
+		}
 	}
 
 	private fun toHomeScreen()
 	{
-		navController.navigate(RouteManager.Route.HOME.name)
+		navController.navigate(RouteManager.Route.AUTHORIZED.name)
 	}
 
 	@AssistedFactory

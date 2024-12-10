@@ -19,7 +19,7 @@ fun MainScreen()
 	val navController = rememberNavController()
 	NavHost(
 		navController = navController,
-		startDestination = RouteManager.Route.SPLASH.name
+		startDestination = RouteManager.Route.SPLASH.name,
 	) {
 		composable(route = RouteManager.Route.SPLASH.name)
 		{
@@ -43,40 +43,9 @@ fun MainScreen()
 			Login(viewModel)
 		}
 
-		composable(route = RouteManager.Route.HOME.name)
+		composable(route = RouteManager.Route.AUTHORIZED.name)
 		{
-			val viewModel: HomeViewModel = hiltViewModel(
-				creationCallback = { factory: HomeViewModel.Factory ->
-					factory.create(
-						navController = navController
-					)
-				}
-			)
-			Home(viewModel)
-		}
-
-		composable(route = RouteManager.Route.LIST.name)
-		{
-			val viewModel: ListViewModel = hiltViewModel(
-				creationCallback = { factory: ListViewModel.Factory ->
-					factory.create(
-						navController = navController
-					)
-				}
-			)
-			ListScreen(viewModel)
-		}
-
-		composable(route = RouteManager.Route.DETAIL.name)
-		{
-			val viewModel: ListViewModel = hiltViewModel(
-				creationCallback = { factory: ListViewModel.Factory ->
-					factory.create(
-						navController = navController
-					)
-				}
-			)
-			DetailScreen(MockDetailViewModel())
+			AuthorizedScreen(navController)
 		}
 	}
 }

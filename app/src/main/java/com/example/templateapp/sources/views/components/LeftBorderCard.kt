@@ -25,14 +25,18 @@ import androidx.compose.ui.unit.dp
 fun LeftBorderCard(
 	borderColor: Color,
 	backgroundColor: Color,
+	cardModifier: Modifier = Modifier,
 	contentPaddingValues: PaddingValues = PaddingValues(12.dp),
+	onClick: () -> Unit = {},
 	content: @Composable () -> Unit
 )
 {
 	Card(
+		onClick = onClick,
 		colors = CardDefaults.cardColors(backgroundColor),
 		elevation = CardDefaults.cardElevation(12.dp),
 		shape = RoundedCornerShape(4.dp),
+		modifier = cardModifier,
 	) {
 		Row(
 			modifier = Modifier
@@ -62,6 +66,7 @@ private fun LeftBorderCardPreview()
 		borderColor = Color.Blue,
 		backgroundColor = Color.White,
 		contentPaddingValues = PaddingValues(12.dp),
+		cardModifier = Modifier.padding(6.dp),
 	)
 	{
 		// content

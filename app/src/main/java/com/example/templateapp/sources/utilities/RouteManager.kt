@@ -6,6 +6,7 @@ class RouteManager
 	{
 		SPLASH,
 		LOGIN,
+		AUTHORIZED,
 		HOME,
 		LIST,
 		DETAIL,

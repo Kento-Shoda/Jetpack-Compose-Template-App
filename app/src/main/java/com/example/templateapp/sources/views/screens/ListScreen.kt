@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
@@ -42,57 +44,58 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.templateapp.sources.models.Order
 import com.example.templateapp.sources.view_models.screens.IListViewModel
 import com.example.templateapp.sources.view_models.screens.MockListViewModel
 import com.example.templateapp.sources.views.components.ExpandCard
 import com.example.templateapp.sources.views.components.LeftBorderCard
+import com.example.templateapp.sources.views.components.LeftHeaderTable
 
 @Composable
 fun ListScreen(viewModel: IListViewModel)
 {
-	Scaffold(
-		topBar = { OriginalTopAppBar() },
-	) { innerPadding ->
-		Column(
+	Column(
+		modifier = Modifier
+	) {
+		// Filtering
+		ExpandCard(
+			headlineText = "検索",
+			headlineIcon = Icons.Default.Search,
 			modifier = Modifier
-				.padding(innerPadding)
+				.fillMaxWidth()
+				.padding(6.dp),
 		) {
-			// Filtering
-			ExpandCard(
-				headlineText = "検索",
-				headlineIcon = Icons.Default.Search,
-				modifier = Modifier
-					.fillMaxWidth()
-					.padding(6.dp),
-			) {
-				Filtering { viewModel.toDetailScreen() }
+			Filtering({})
+		}
+
+		// List Information
+		ListInformation(100, "2024/01/01 12:34:56")
+
+		HorizontalDivider(
+			modifier = Modifier.padding(1.dp),
+		)
+
+		// List
+		LazyColumn(
+			modifier = Modifier
+				.padding(horizontal = 6.dp)
+				.fillMaxWidth(),
+			verticalArrangement = Arrangement.spacedBy(6.dp),
+		) {
+			item{
+				Spacer(modifier = Modifier.padding(3.dp))
 			}
-
-			// List Information
-			ListInformation(100, "2024/01/01 12:34:56")
-
-			HorizontalDivider(
-				modifier = Modifier.padding(1.dp),
-			)
-
-			// List
-			LazyColumn(
-				modifier = Modifier
-					.padding(horizontal = 6.dp)
-					.fillMaxWidth(),
-				verticalArrangement = Arrangement.spacedBy(6.dp),
-			) {
-				items(100) {
-					LeftBorderCard(
-						borderColor = Color.Red,
-						backgroundColor = Color.White,
-					) {
-						Text(
-							text = "Data",
-							fontWeight = FontWeight.Bold,
-						)
-					}
+			itemsIndexed(viewModel.orders) { _, order ->
+				LeftBorderCard(
+					borderColor = Color.Red,
+					backgroundColor = Color.White,
+					onClick = {viewModel.toDetailScreen(order.id)},
+				) {
+					LeftHeaderTable(data = order.toMap())
 				}
+			}
+			item{
+				Spacer(modifier = Modifier.padding(3.dp))
 			}
 		}
 	}
@@ -272,68 +275,7 @@ fun DatePicker()
 	}
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun OriginalTopAppBar()
-{
-	var isExpanded: Boolean by remember { mutableStateOf(false) }
-
-	TopAppBar(
-		title = {
-			Text(
-				text = "一覧",
-				fontWeight = FontWeight.Bold,
-			)
-		},
-		colors = TopAppBarDefaults.topAppBarColors(
-			containerColor = MaterialTheme.colorScheme.primaryContainer,
-			titleContentColor = MaterialTheme.colorScheme.primary,
-		),
-		navigationIcon = {
-			IconButton(
-				onClick = {},
-			) {
-				Icon(
-					imageVector = Icons.Default.ArrowBackIosNew,
-					contentDescription = "More",
-				)
-			}
-		},
-		actions = {
-			IconButton(onClick = { isExpanded = !isExpanded }) {
-				Icon(
-					imageVector = Icons.Default.MoreVert,
-					contentDescription = "More",
-				)
-				DropdownMenu(
-					expanded = isExpanded,
-					onDismissRequest = { isExpanded = false }
-				) {
-					DropdownMenuItem(
-						text = { Text("home") },
-						onClick = {
-							isExpanded = false
-						}
-					)
-					DropdownMenuItem(
-						text = { Text("Settings") },
-						onClick = {
-							isExpanded = false
-						}
-					)
-					DropdownMenuItem(
-						text = { Text("logout") },
-						onClick = {
-							isExpanded = false
-						}
-					)
-				}
-			}
-		}
-	)
-}
-
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun ListScreenPreview()
 {

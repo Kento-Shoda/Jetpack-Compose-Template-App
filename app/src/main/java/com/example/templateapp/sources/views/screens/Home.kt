@@ -52,10 +52,16 @@ import androidx.compose.ui.unit.sp
 import com.example.templateapp.R
 import com.example.templateapp.sources.view_models.screens.IHomeViewModel
 import com.example.templateapp.sources.view_models.screens.MockHomeViewModel
+import com.example.templateapp.sources.views.components.Carousel
 import com.example.templateapp.sources.views.components.LeftBorderCard
 import com.example.templateapp.sources.views.components.LeftBorderHeadlineText
 import com.example.templateapp.sources.views.components.LeftHeaderTable
 import com.example.templateapp.sources.views.components.LinearProgressBar
+import com.example.templateapp.ui.theme.BsGreen700
+import com.example.templateapp.ui.theme.BsInfo
+import com.example.templateapp.ui.theme.BsPink700
+import com.example.templateapp.ui.theme.BsTeal700
+import com.example.templateapp.ui.theme.White
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -70,88 +76,117 @@ fun Home(viewModel: IHomeViewModel)
 
 	var isAsyncTask by remember { mutableStateOf(false) }
 
-	Scaffold(
-		topBar = { HomeTopBar(isAsyncTask, { viewModel.toLoginScreen() }) },
-		floatingActionButton = { SettingFloatingActionButton() },
-	) { innerPadding ->
+	Column(
+		modifier = Modifier
+			.fillMaxSize()
+			.verticalScroll(rememberScrollState()),
+		verticalArrangement = Arrangement.spacedBy(contentSpaceDp),
+	) {
+		HomeImage()
 		Column(
 			modifier = Modifier
 				.fillMaxSize()
-				.padding(innerPadding)
-				.verticalScroll(rememberScrollState()),
+				.padding(6.dp),
 			verticalArrangement = Arrangement.spacedBy(contentSpaceDp),
 		) {
-			HomeImage()
-			Column(
-				modifier = Modifier
-					.fillMaxSize()
-					.padding(6.dp),
-				verticalArrangement = Arrangement.spacedBy(contentSpaceDp),
+			Button(
+				onClick = {
+					GlobalScope.launch {
+						withContext(Dispatchers.IO) {
+							isAsyncTask = true
+							Thread.sleep(3000)
+							isAsyncTask = false
+						}
+					}
+				},
+				modifier = Modifier.fillMaxWidth(),
 			) {
-				Button(
-					onClick = {
-						GlobalScope.launch {
-							withContext(Dispatchers.IO) {
-								isAsyncTask = true
-								Thread.sleep(3000)
-								isAsyncTask = false
-							}
+				Text(
+					text = "Toggle Async Task",
+				)
+			}
+
+			Button(
+				onClick = { viewModel.toListScreen() },
+				modifier = Modifier.fillMaxWidth(),
+			) {
+				Text(
+					text = "To List Screen",
+				)
+			}
+
+			Carousel(
+				contents = listOf(
+					{
+						LeftBorderCard(
+							borderColor = BsPink700,
+							backgroundColor = White,
+							contentPaddingValues = PaddingValues(cardContentPaddingDp),
+							cardModifier = Modifier.padding(6.dp),
+						) {
+							Text("Page 0")
 						}
 					},
-					modifier = Modifier.fillMaxWidth(),
-				) {
-					Text(
-						text = "Toggle Async Task",
-					)
-				}
-
-				Button(
-					onClick = { viewModel.toListScreen() },
-					modifier = Modifier.fillMaxWidth(),
-				) {
-					Text(
-						text = "To List Screen",
-					)
-				}
-
-				LeftBorderCard(
-					borderColor = Color.Red,
-					backgroundColor = Color.White,
-					contentPaddingValues = PaddingValues(cardContentPaddingDp),
-				) {
-					val data: MutableMap<String, String> = mutableMapOf()
-					for (i in 0..5)
 					{
-						data += Pair("Header $i", "Data $i")
-					}
-					LeftHeaderTable(data)
-					LinearProgressBar("Linear Progress Bar", 25, 100)
+						LeftBorderCard(
+							borderColor = BsGreen700,
+							backgroundColor = White,
+							contentPaddingValues = PaddingValues(cardContentPaddingDp),
+							cardModifier = Modifier.padding(6.dp),
+						) {
+							Text("Page 1")
+						}
+					},
+					{
+						LeftBorderCard(
+							borderColor = BsTeal700,
+							backgroundColor = White,
+							contentPaddingValues = PaddingValues(cardContentPaddingDp),
+							cardModifier = Modifier.padding(6.dp),
+						) {
+							Text("Page 2")
+						}
+					},
+				)
+			)
+
+			LeftBorderCard(
+				borderColor = Color.Red,
+				backgroundColor = Color.White,
+				contentPaddingValues = PaddingValues(cardContentPaddingDp),
+			) {
+				val data: MutableMap<String, String> = mutableMapOf()
+				for (i in 0..5)
+				{
+					data += Pair("Header $i", "Data $i")
 				}
-
-				LeftBorderHeadlineText(
-					text = "入荷",
-					borderColor = Color.Red,
-					textColor = Color.Black,
-				)
-				FunctionButtons()
-				LeftBorderHeadlineText(
-					text = "出荷",
-					borderColor = Color.Red,
-					textColor = Color.Black,
-				)
-				FunctionButtons()
-				FunctionButtons()
-				FunctionButtons()
-				LeftBorderHeadlineText(
-					text = "在庫管理",
-					borderColor = Color.Red,
-					textColor = Color.Black,
-				)
-				FunctionButtons()
-				FunctionButtons()
-
-				Spacer(modifier = Modifier.padding(48.dp))
+				LeftHeaderTable(data)
+				LinearProgressBar("Linear Progress Bar", 25, 100)
 			}
+
+			LeftBorderHeadlineText(
+				text = "入荷",
+				borderColor = Color.Red,
+				textColor = Color.Black,
+			)
+			FunctionButtons()
+			LeftBorderHeadlineText(
+				text = "出荷",
+				borderColor = Color.Red,
+				textColor = Color.Black,
+			)
+			FunctionButtons()
+			FunctionButtons()
+			FunctionButtons()
+			LeftBorderHeadlineText(
+				text = "在庫管理",
+				borderColor = Color.Red,
+				textColor = Color.Black,
+			)
+			FunctionButtons()
+			FunctionButtons()
+
+			Spacer(modifier = Modifier.padding(36.dp))
 		}
 	}
 }
@@ -161,6 +196,7 @@ fun Home(viewModel: IHomeViewModel)
 fun HomeTopBar(isAsyncTask: Boolean, toLoginScreen: () -> Unit)
 {
 	var isExpanded by remember { mutableStateOf(false) }
+
 	Column {
 		TopAppBar(
 			colors = TopAppBarDefaults.topAppBarColors(
