@@ -49,16 +49,17 @@ fun AuthorizedScreen(mainScreenNavController: NavHostController)
 
 	var isExpanded: Boolean by remember { mutableStateOf(false) }
 
-	var title: String? =
+	var routeName: String? =
 		if (currentBackStack?.destination?.route == null) "" else currentBackStack?.destination?.route
 
 	Scaffold(
 		topBar = {
 			TopAppBar(
 				title = {
-					title?.let {
+					routeName?.let {
+						val routeNameRoot = it.split("/").first()
 						Text(
-							text = when (it)
+							text = when (routeNameRoot)
 							{
 								RouteManager.Route.HOME.name -> "Home"
 								RouteManager.Route.LIST.name -> "List"

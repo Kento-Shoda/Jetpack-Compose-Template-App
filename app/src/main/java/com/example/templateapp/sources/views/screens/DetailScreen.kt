@@ -1,10 +1,13 @@
 package com.example.templateapp.sources.views.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -15,17 +18,19 @@ import com.example.templateapp.sources.view_models.screens.IDetailViewModel
 import com.example.templateapp.sources.view_models.screens.MockDetailViewModel
 import com.example.templateapp.sources.views.components.LeftBorderCard
 import com.example.templateapp.sources.views.components.LinearProgressBar
-import com.example.templateapp.sources.views.components.TopBar
+import com.example.templateapp.sources.views.components.QrOutlinedTextField
 
 @Composable
 fun DetailScreen(viewModel: IDetailViewModel)
 {
 	Column(
-		modifier = Modifier
+		modifier = Modifier.fillMaxSize(),
 	) {
 		Column(
 			modifier = Modifier
 				.padding(6.dp),
+			horizontalAlignment = Alignment.CenterHorizontally,
+			verticalArrangement = Arrangement.spacedBy(6.dp),
 		) {
 			// Detail content
 			LeftBorderCard(
@@ -46,6 +51,14 @@ fun DetailScreen(viewModel: IDetailViewModel)
 				LinearProgressBar("入荷数量", 30, 70)
 			}
 
+			QrOutlinedTextField(
+				text = "",
+				placeholder = "IDを入力してください",
+				modifier = Modifier.fillMaxWidth(),
+				onValueChange = {
+					//viewModel.onValueChange(it)
+				},
+			)
 
 		}
 	}

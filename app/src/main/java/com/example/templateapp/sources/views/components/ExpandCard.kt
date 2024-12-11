@@ -1,11 +1,16 @@
 package com.example.templateapp.sources.views.components
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -31,7 +36,8 @@ fun ExpandCard(
 	headlineIcon: ImageVector,
 	modifier: Modifier,
 	backgroundColor: Color = Color.White,
-	content: @Composable () -> Unit = {})
+	content: @Composable () -> Unit = {}
+)
 {
 	var isExpanded: Boolean by remember { mutableStateOf(true) }
 
@@ -44,7 +50,13 @@ fun ExpandCard(
 	) {
 		Column(
 			modifier = Modifier
-				.padding(12.dp),
+				.padding(12.dp)
+				.animateContentSize(
+					animationSpec = spring(
+						dampingRatio = Spring.DampingRatioLowBouncy,
+						stiffness = Spring.StiffnessLow
+					)
+				),
 		) {
 			// Headline
 			Row(
@@ -53,11 +65,15 @@ fun ExpandCard(
 				Icon(
 					imageVector = headlineIcon,
 					contentDescription = "Expand Card",
-
-					)
+				)
 				Text(
 					text = headlineText,
 					fontWeight = FontWeight.Bold,
+					modifier = Modifier.weight(1f),
+				)
+				Icon(
+					imageVector = if (isExpanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+					contentDescription = "Expand Card",
 				)
 			}
 
