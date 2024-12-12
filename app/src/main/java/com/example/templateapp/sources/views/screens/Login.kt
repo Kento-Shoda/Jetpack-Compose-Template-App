@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import com.example.templateapp.sources.view_models.screens.ILoginViewModel
 import com.example.templateapp.sources.view_models.screens.MockLoginViewModel
 import com.example.templateapp.sources.views.components.CredentialOutlinedTextField
+import com.example.templateapp.ui.theme.TemplateAppTheme
 
 
 @Composable
@@ -96,5 +97,7 @@ fun Login(viewModel: ILoginViewModel)
 @Composable
 fun LoginPreview()
 {
-	Login(MockLoginViewModel())
+	TemplateAppTheme {
+		Login(MockLoginViewModel())
+	}
 }

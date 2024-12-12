@@ -22,7 +22,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -34,7 +33,6 @@ import com.example.templateapp.sources.utilities.RouteManager
 import com.example.templateapp.sources.view_models.screens.DetailViewModel
 import com.example.templateapp.sources.view_models.screens.HomeViewModel
 import com.example.templateapp.sources.view_models.screens.ListViewModel
-import com.example.templateapp.sources.view_models.screens.MockDetailViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,15 +62,15 @@ fun AuthorizedScreen(mainScreenNavController: NavHostController)
 								RouteManager.Route.HOME.name -> "Home"
 								RouteManager.Route.LIST.name -> "List"
 								RouteManager.Route.DETAIL.name -> "Detail"
-								else -> "Navigation Error"
+								else -> "Title Undefined"
 							},
 							fontWeight = FontWeight.Bold,
 						)
 					}
 				},
 				colors = TopAppBarDefaults.topAppBarColors(
-					containerColor = MaterialTheme.colorScheme.primaryContainer,
-					titleContentColor = MaterialTheme.colorScheme.primary,
+					containerColor = MaterialTheme.colorScheme.primary,
+					titleContentColor = MaterialTheme.colorScheme.onPrimary,
 				),
 				navigationIcon = {
 					if (!isHome)
@@ -85,6 +83,7 @@ fun AuthorizedScreen(mainScreenNavController: NavHostController)
 							Icon(
 								imageVector = Icons.Default.ArrowBackIosNew,
 								contentDescription = "Back",
+								tint = MaterialTheme.colorScheme.onPrimary,
 							)
 						}
 					}
@@ -94,6 +93,7 @@ fun AuthorizedScreen(mainScreenNavController: NavHostController)
 						Icon(
 							imageVector = Icons.Default.MoreVert,
 							contentDescription = "More",
+							tint = MaterialTheme.colorScheme.onPrimary,
 						)
 						DropdownMenu(
 							expanded = isExpanded,

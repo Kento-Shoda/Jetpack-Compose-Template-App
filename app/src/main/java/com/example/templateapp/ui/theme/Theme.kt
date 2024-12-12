@@ -18,9 +18,42 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-	primary = Purple40,
-	secondary = PurpleGrey40,
-	tertiary = Pink40
+	primary = BsOrange,
+	onPrimary = BsLight,
+	primaryContainer = BsOrange200,
+	onPrimaryContainer = BsLight,
+	inversePrimary = BsBlue,
+	secondary = BsBlue,
+	onSecondary = BsLight,
+	secondaryContainer = BsBlue200,
+	onSecondaryContainer = BsLight,
+	tertiary = BsTeal,
+	onTertiary = BsDark,
+	tertiaryContainer = BsTeal200,
+	onTertiaryContainer = BsDark,
+	background = BsLight,
+	onBackground = BsDark,
+	surface = BsLight,
+	onSurface = BsDark,
+	surfaceVariant = BsLight,
+	onSurfaceVariant = BsDark,
+	surfaceTint = BsLight,
+	inverseSurface = BsGray900,
+	inverseOnSurface = BsLight,
+	error = BsDanger,
+	onError = BsLight,
+	errorContainer = BsDanger,
+	onErrorContainer = BsLight,
+	outline = BsOrange400,
+	outlineVariant = BsOrange400,
+	scrim = BsOrange400,
+	surfaceBright = White,
+	surfaceDim = BsGray500,
+	surfaceContainer = BsGray,
+	surfaceContainerHigh = BsGray200,
+	surfaceContainerHighest = BsGray100,
+	surfaceContainerLow = BsGray800,
+	surfaceContainerLowest = BsGray900,
 
 	/* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -37,7 +70,7 @@ private val LightColorScheme = lightColorScheme(
 fun TemplateAppTheme(
 	darkTheme: Boolean = isSystemInDarkTheme(),
 	// Dynamic color is available on Android 12+
-	dynamicColor: Boolean = false,
+	dynamicColor: Boolean = false,	// Changed from true
 	content: @Composable () -> Unit
 )
 {

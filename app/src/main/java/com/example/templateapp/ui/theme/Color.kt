@@ -1,15 +1,17 @@
 package com.example.templateapp.ui.theme
 
-import android.telephony.CarrierConfigManager.Bsf
 import androidx.compose.ui.graphics.Color
 
+// Default dark theme colors
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
 val Pink80 = Color(0xFFEFB8C8)
 
+// Default light theme colors
 val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
+
 
 // Bootstrap from https://getbootstrap.com/docs/5.0/customize/color/
 // Bootstrap colors: Theme
@@ -154,5 +156,15 @@ val BsGray700 = Color(0xFF495057)
 val BsGray800 = Color(0xFF343A40)
 val BsGray900 = Color(0xFF212529)
 
+// Base colors
+val Red = Color(0xFFFF0000)
+val Green = Color(0xFF00FF00)
+val Blue = Color(0xFF0000FF)
+val Yellow = Color(0xFFFFFF00)
+val Cyan = Color(0xFF00FFFF)
+val Magenta = Color(0xFFFF00FF)
+val Gray = Color(0xFF808080)
+val LightGray = Color(0xFFD3D3D3)
+val DarkGray = Color(0xFFA9A9A9)
 val White = Color(0xFFFFFFFF)
 val Black = Color(0xFF000000)
